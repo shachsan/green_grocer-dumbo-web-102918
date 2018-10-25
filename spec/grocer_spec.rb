@@ -1,3 +1,6 @@
+# Language: Ruby, Level: Level 3
+require 'pry'
+
 describe "Grocer" do
   let(:items) do
     [
