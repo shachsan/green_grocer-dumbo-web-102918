@@ -1,60 +1,13 @@
 # Language: Ruby, Level: Level 3
 require 'pry'
 
-# def count_uniq_items(items_arr)
-#   unique_cart_items = Hash.new(0)
-#   for each_item in items_arr
-#     unique_cart_items[each_item]+=1
-#   end
-#   return unique_cart_items
-# end
-
-# def consolidate_cart(cart)
-#   cart_hash = Hash.new(0)
-#   unique_cart_items = Hash.new(0)
-#   cart_items =[]
-#   updated_cart=[]
-#
-#   cart.each do |item|
-#     item.each do |item_name, item_detail|
-#       cart_items << item_name
-#
-#     end
-#       # if updated_cart.has_key?(item_name)
-#       #   item_detail[:count]+=1
-#       #   updated_cart[item_name]=item_detail
-#       # else
-#       #   item_detail[:count]=1
-#       #   updated_cart << {item_name => item_detail}
-#       # end
-#
-#   end
-#
-#   for each_item in cart_items
-#     unique_cart_items[each_item]+=1
-#   end
-#
-#   cart_items.uniq.each do |uniq_item|
-#     cart.each do |item|
-#       item.each do |item_name, item_detail|
-#         if uniq_item == item_name
-#           item_detail[:count]=unique_cart_items[item_name]
-#           updated_cart << {unique_cart_items => item_detail}
-#           binding.pry
-#         end
-#       end
-#     end
-#   end
-#
-# end
-
 def consolidate_cart(cart)
 
   unique_cart_items = Hash.new(0)
   cart_items_all =[]
   updated_cart={}
 
-
+  ## To retrieve items names ###
   cart.each do |item|
     item.each do |item_name, item_detail|
       cart_items_all << item_name
@@ -65,6 +18,7 @@ def consolidate_cart(cart)
   for each_item in cart_items_all
     unique_cart_items[each_item]+=1
   end
+  ### End of Items names retrieval###
 
   unique_cart_items.each do |name, qty|
     cart.each do |item|
@@ -80,7 +34,7 @@ end
 
 
 
-
+###APPLY COUPONS #######
 def apply_coupons(cart, coupons)
   if coupons.empty?
     return cart
@@ -106,7 +60,6 @@ def apply_coupons(cart, coupons)
         coupon_found = true
         break
       end
-
     end
     if coupon_found == false
       cart_w_coupons[item_name]=item_detail
@@ -115,6 +68,7 @@ def apply_coupons(cart, coupons)
   cart_w_coupons
 end
 
+######APPLY CLEARANCE ##########
 def apply_clearance(cart)
   clearance_cart = {}
   cart.each do |item_name, item_detail|
@@ -128,11 +82,9 @@ def apply_clearance(cart)
   clearance_cart
 end
 
+#####CHECKOUT #########
 def checkout(cart, coupons)
   total_price = 0
-  # if coupons.empty? && cart.length  == 1
-  #   return cart[0].first.last[:price]
-  # end
   cart_consld = consolidate_cart(cart)
   checkout_coupons_applied = apply_coupons(cart_consld, coupons)
   checkout_clearance_applied =  apply_clearance(checkout_coupons_applied)
